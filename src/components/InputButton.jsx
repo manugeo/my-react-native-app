@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const InputButton = ({ title = '', style = null, onPress = () => { } }) => {
-  const pressableStyles = [styles.container, style];
+const InputButton = ({ title = '', style = null, disabled = false, onPress = () => { }, ...props }) => {
+  const pressableStyles = [styles.container, (disabled && { opacity: 0.5 }), style];
   return (
-    <Pressable style={pressableStyles} onPress={onPress}>
+    <Pressable style={pressableStyles} disabled={disabled} onPress={onPress} {...props}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   );

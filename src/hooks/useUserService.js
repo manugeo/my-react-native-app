@@ -1,19 +1,16 @@
-import dummyApi from "../dummyApi";
-
-const { createUserAsync } = dummyApi;
+import { useState } from "react";
+import { createUserAsync } from "../mockApi";
 
 const useUserService = () => {
+  const [loading, setLoading] = useState(false);
   const createUser = async (userDetails) => {
-    const newUser = await createUserAsync(userDetails);
-    if (!newUser || newUser.error) {
-      console.log(newUser.error);
-      return null;
-    }
-    console.log('New user created!', newUser);
-    return newUser;
+    setLoading(true);
+    const response = await createUserAsync(userDetails);
+    setLoading(false);
+    return response;
   };
 
-  return { createUser };
+  return { createUser, loading };
 };
 
 export default useUserService;

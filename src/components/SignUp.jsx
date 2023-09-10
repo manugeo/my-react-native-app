@@ -3,6 +3,8 @@ import theme from "../theme";
 import { useState } from "react";
 import InputText from "./InputText";
 import InputButton from "./InputButton";
+import { isValidEmail, showToast } from "../utils";
+import useUserService from "../hooks/useUserService";
 
 const styles = StyleSheet.create({
   scrollViewContent: {
@@ -20,9 +22,36 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
+  const { createUser, loading } = useUserService();
 
-  const onSignUpPress = () => {
-    console.log("Button pressed!");
+  const isUserDetailsValid = () => {
+    console.log({ fullName, email, password, confirmPassword });
+
+    if (!fullName || !email || !password || !confirmPassword) return false;
+    if (!isValidEmail(email)) return false;
+    if (password.length < 8) return false;
+    if (password !== confirmPassword) return false;
+    return true;
+  };
+  const resetPage = () => {
+    setFullName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setIsTriedSubmitting(false);
+  };
+
+  const onSignUpPress = async () => {
+    if (!isTriedSubmitting) setIsTriedSubmitting(true);
+    if (!isUserDetailsValid()) return;
+    const response = await createUser({ fullName, email, password });
+    if (!response || response.error) {
+      showToast(response.error)
+      return;
+    }
+    showToast('Signed up successfully.');
+    resetPage();
   };
 
   return (
@@ -32,7 +61,7 @@ const SignUp = () => {
         <InputText value={email} label="Email" keyboardType="email-address" style={{ marginTop: 20 }} onChange={setEmail} />
         <InputText value={password} label="Password" secureTextEntry style={{ marginTop: 20 }} onChange={setPassword} />
         <InputText value={confirmPassword} label="Confirm Password" secureTextEntry style={{ marginTop: 20 }} onChange={setConfirmPassword} />
-        <InputButton title="Sign Up" style={{ marginTop: 60 }} onPress={onSignUpPress} />
+        <InputButton title="Sign Up" style={{ marginTop: 60 }} disabled={loading} onPress={onSignUpPress} />
       </View>
     </ScrollView>
   );
