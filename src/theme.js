@@ -1,20 +1,20 @@
 const theme = {
   colors: {
-    textPrimary: '#24292e',
-    textSecondary: '#586069',
-    primary: '#0366d6',
+    backgroundPrimary: '#abd699',
+    textPrimary: '#16123f',
+    textLight: '#ffffff',
+
+    // textPrimary: '#0d5588',
+    teal: '#75c9b7',
+    mint: '#c7ddcc',
+    navy: '#16123f'
   },
-  fontSizes: {
-    body: 14,
-    subheading: 16,
-  },
-  fonts: {
-    main: 'System',
-  },
-  fontWeights: {
-    normal: '400',
-    bold: '700',
-  },
+  texts: {
+    medium: {
+      fontSize: 15,
+      lineHeight: 18
+    },
+  }
 };
 
 export default theme;
