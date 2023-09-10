@@ -23,4 +23,10 @@ const theme = {
   }
 };
 
+export const defaultScreenOptions = {
+  headerTitleAlign: 'center',
+  headerTintColor: theme.colors.textPrimary,
+  headerStyle: { backgroundColor: theme.colors.backgroundPrimary }
+};
+
 export default theme;
