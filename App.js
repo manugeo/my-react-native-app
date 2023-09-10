@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import Login from './src/components/Login';
 import SignUp from './src/components/SignUp';
 import theme from './src/theme';
@@ -15,11 +16,13 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='SignUp' screenOptions={screenOptions}>
-        <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen name='SignUp' component={SignUp} options={{ title: 'Sign Up' }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RootSiblingParent>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='SignUp' screenOptions={screenOptions}>
+          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='SignUp' component={SignUp} options={{ title: 'Sign Up' }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RootSiblingParent>
   );
 }
