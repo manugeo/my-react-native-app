@@ -4,7 +4,11 @@ import { useEffect, useRef } from "react";
 
 const { colors, texts } = theme;
 
-const inputTextStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    paddingBottom: 24,
+  },
   label: {
     marginBottom: 8,
     color: colors.textPrimary,
@@ -14,13 +18,21 @@ const inputTextStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     color: colors.textPrimary,
     ...texts.medium
+  },
+  errorText: {
+    position: 'absolute',
+    bottom: 0,
+    paddingVertical: 4,
+    paddingLeft: 8,
+    color: colors.textError,
+    ...texts.small
   }
 });
 
-const InputText = ({ value = null, label = '', style = null, onChange = () => { }, ...props }) => {
+const InputText = ({ value = null, label = '', style = null, errorText = '', onChange = () => { }, ...props }) => {
   const inputRef = useRef(null);
   const blurInput = () => {
     const currentTextInput = inputRef?.current || null;
@@ -34,9 +46,10 @@ const InputText = ({ value = null, label = '', style = null, onChange = () => { 
   }, []);
 
   return (
-    <View style={style}>
-      {label && <Text style={inputTextStyles.label}>{label}</Text>}
-      <TextInput value={value} style={inputTextStyles.textInput} ref={inputRef} onChangeText={onChange} {...props} />
+    <View style={[styles.container, style]}>
+      {label && <Text style={styles.label}>{label}</Text>}
+      <TextInput value={value} style={styles.textInput} ref={inputRef} onChangeText={onChange} {...props} />
+      {errorText && <Text style={styles.errorText}>{errorText}</Text>}
     </View>
   );
 };

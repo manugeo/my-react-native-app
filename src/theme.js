@@ -3,6 +3,7 @@ const theme = {
     backgroundPrimary: '#abd699',
     textPrimary: '#16123f',
     textLight: '#ffffff',
+    textError: '#FF0000',
 
     // textPrimary: '#0d5588',
     teal: '#75c9b7',
@@ -13,6 +14,10 @@ const theme = {
     medium: {
       fontSize: 15,
       lineHeight: 18
+    },
+    small: {
+      fontSize: 14,
+      lineHeight: 16
     },
   }
 };

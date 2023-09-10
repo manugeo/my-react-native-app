@@ -58,10 +58,10 @@ const SignUp = () => {
     <ScrollView contentContainerStyle={styles.scrollViewContent} >
       <View style={styles.container}>
         <InputText value={fullName} label="Full Name" onChange={setFullName} />
-        <InputText value={email} label="Email" keyboardType="email-address" style={{ marginTop: 20 }} onChange={setEmail} />
-        <InputText value={password} label="Password" secureTextEntry style={{ marginTop: 20 }} onChange={setPassword} />
-        <InputText value={confirmPassword} label="Confirm Password" secureTextEntry style={{ marginTop: 20 }} onChange={setConfirmPassword} />
-        <InputButton title="Sign Up" style={{ marginTop: 60 }} disabled={loading} onPress={onSignUpPress} />
+        <InputText value={email} label="Email" keyboardType="email-address" style={{ marginTop: 4 }} onChange={setEmail} />
+        <InputText value={password} label="Password" secureTextEntry style={{ marginTop: 4 }} onChange={setPassword} />
+        <InputText value={confirmPassword} label="Confirm Password" secureTextEntry style={{ marginTop: 4 }} onChange={setConfirmPassword} />
+        <InputButton title="Sign Up" style={{ marginTop: 12 }} disabled={loading} onPress={onSignUpPress} />
       </View>
     </ScrollView>
   );
