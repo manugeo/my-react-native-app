@@ -25,7 +25,6 @@ const InputText = ({ value = null, label = '', style = null, onChange = () => { 
   const blurInput = () => {
     const currentTextInput = inputRef?.current || null;
     if (currentTextInput && currentTextInput.isFocused()) {
-      console.log('Boom!');
       currentTextInput.blur();
     }
   };
