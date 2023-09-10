@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 8,
     color: colors.textPrimary,
+    backgroundColor: colors.backgroundSecondary,
     ...texts.medium
   },
   errorText: {
@@ -32,7 +33,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const InputText = ({ value = null, label = '', style = null, errorText = '', onChange = () => { }, ...props }) => {
+const InputText = ({ value = null, label = '', style = null, errorText = '',
+  onChange = () => { }, onBlur = () => {}, ...props }) => {
   const inputRef = useRef(null);
   const blurInput = () => {
     const currentTextInput = inputRef?.current || null;
@@ -48,7 +50,7 @@ const InputText = ({ value = null, label = '', style = null, errorText = '', onC
   return (
     <View style={[styles.container, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <TextInput value={value} style={styles.textInput} ref={inputRef} onChangeText={onChange} {...props} />
+      <TextInput value={value} style={styles.textInput} ref={inputRef} onChangeText={onChange} onBlur={onBlur} {...props} />
       {errorText && <Text style={styles.errorText}>{errorText}</Text>}
     </View>
   );

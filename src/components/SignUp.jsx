@@ -6,6 +6,20 @@ import InputButton from "./InputButton";
 import { isValidEmail, showToast } from "../utils";
 import useUserService from "../hooks/useUserService";
 
+const SIGN_UP_INPUTS = [
+  { id: 'fullName', label: 'Full Name', placeholder: 'John Doe', isPassword: false },
+  { id: 'email', label: 'Email', placeholder: 'example@email.com', isPassword: false },
+  { id: 'password', label: 'Password', placeholder: 'Atleast 8 characters', isPassword: true },
+  { id: 'confirmPassword', label: 'Confirm Password', placeholder: 'Re-enter your password', isPassword: true },
+];
+
+const initialValue = {
+  fullName: { value: '', isTouched: false, errorText: 'Full Name is required.' },
+  email: { value: '', isTouched: false, errorText: 'Email is required.' },
+  password: { value: '', isTouched: false, errorText: 'Password is required.' },
+  confirmPassword: { value: '', isTouched: false, errorText: 'Confirm Password is required.' }
+};
+
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
@@ -18,49 +32,81 @@ const styles = StyleSheet.create({
 });
 
 const SignUp = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [inputDetails, setInputDetails] = useState(initialValue);
   const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
   const { createUser, loading } = useUserService();
 
   const isUserDetailsValid = () => {
-    console.log({ fullName, email, password, confirmPassword });
-
+    const fullName = inputDetails.fullName.value;
+    const email = inputDetails.email.value;
+    const password = inputDetails.password.value;
+    const confirmPassword = inputDetails.confirmPassword.value;
     if (!fullName || !email || !password || !confirmPassword) return false;
     if (!isValidEmail(email)) return false;
     if (password.length < 8) return false;
     if (password !== confirmPassword) return false;
     return true;
   };
-  const resetPage = () => {
-    setFullName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setIsTriedSubmitting(false);
+
+  // Note: Accepts an input details object. Updates the error-texts for the same. 
+  const updateInputErrorTexts = (inputDetails) => {
+    for (const { id, label } of SIGN_UP_INPUTS) {
+      const input = inputDetails[id];
+      const inputValue = input.value;
+      const passwordValue = inputDetails['password'].value;
+      let errorText = '';
+      if (!inputValue) {
+        errorText = `${label} is required.`;
+      }
+      else {
+        switch (id) {
+          case 'email':
+            if (!isValidEmail(inputValue)) errorText = `Invalid email.`;
+            break;
+          case 'password':
+            if (inputValue.length < 8) errorText = `Password should be atleast 8 characters long.`;
+            break;
+          case 'confirmPassword':
+            if (inputValue !== passwordValue) errorText = 'Passwords do not match.';
+            break;
+        }
+      }
+      input.errorText = errorText;
+    }
   };
 
+  const onInputChange = (id, value) => {
+    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value } };
+    updateInputErrorTexts(newInputDetails);
+    setInputDetails(newInputDetails);
+  };
+  const onInputBlur = (id) => setInputDetails({ ...inputDetails, [id]: { ...inputDetails[id], isTouched: true } });
   const onSignUpPress = async () => {
     if (!isTriedSubmitting) setIsTriedSubmitting(true);
     if (!isUserDetailsValid()) return;
+    const fullName = inputDetails.fullName.value;
+    const email = inputDetails.email.value;
+    const password = inputDetails.password.value;
     const response = await createUser({ fullName, email, password });
     if (!response || response.error) {
       showToast(response.error)
       return;
     }
     showToast('Signed up successfully.');
-    resetPage();
+    setInputDetails(initialValue);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent} >
       <View style={styles.container}>
-        <InputText value={fullName} label="Full Name" onChange={setFullName} />
-        <InputText value={email} label="Email" keyboardType="email-address" style={{ marginTop: 4 }} onChange={setEmail} />
-        <InputText value={password} label="Password" secureTextEntry style={{ marginTop: 4 }} onChange={setPassword} />
-        <InputText value={confirmPassword} label="Confirm Password" secureTextEntry style={{ marginTop: 4 }} onChange={setConfirmPassword} />
+        {SIGN_UP_INPUTS.map(({ id, label, placeholder, isPassword }) => {
+          const { value, isTouched, errorText } = inputDetails[id];
+          return (
+            <InputText key={id} value={value} label={label} secureTextEntry={isPassword} placeholder={placeholder}
+              errorText={(isTouched || isTriedSubmitting) ? errorText : ''} onChange={(v) => onInputChange(id, v)} onBlur={() => onInputBlur(id)} />
+          );
+        }
+        )}
         <InputButton title="Sign Up" style={{ marginTop: 12 }} disabled={loading} onPress={onSignUpPress} />
       </View>
     </ScrollView>

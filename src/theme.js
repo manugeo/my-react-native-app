@@ -1,6 +1,7 @@
 const theme = {
   colors: {
     backgroundPrimary: '#abd699',
+    backgroundSecondary: '#cdf8bb',
     textPrimary: '#16123f',
     textLight: '#ffffff',
     textError: '#FF0000',
@@ -12,7 +13,7 @@ const theme = {
   },
   texts: {
     medium: {
-      fontSize: 15,
+      fontSize: 16,
       lineHeight: 18
     },
     small: {
