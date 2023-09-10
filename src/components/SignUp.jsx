@@ -94,6 +94,7 @@ const SignUp = () => {
     }
     showToast('Signed up successfully.');
     setInputDetails(initialValue);
+    setIsTriedSubmitting(false);
   };
 
   return (
