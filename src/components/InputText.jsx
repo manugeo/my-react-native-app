@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import theme from "../theme";
+import { useEffect, useRef } from "react";
 
 const { colors, texts } = theme;
 
@@ -20,10 +21,23 @@ const inputTextStyles = StyleSheet.create({
 });
 
 const InputText = ({ value = null, label = '', style = null, onChange = () => { }, ...props }) => {
+  const inputRef = useRef(null);
+  const blurInput = () => {
+    const currentTextInput = inputRef?.current || null;
+    if (currentTextInput && currentTextInput.isFocused()) {
+      console.log('Boom!');
+      currentTextInput.blur();
+    }
+  };
+  useEffect(() => {
+    const keyboardSubscription = Keyboard.addListener('keyboardDidHide', blurInput);
+    return () => keyboardSubscription.remove();
+  }, []);
+
   return (
     <View style={style}>
       {label && <Text style={inputTextStyles.label}>{label}</Text>}
-      <TextInput value={value} style={inputTextStyles.textInput} onChangeText={onChange} {...props} />
+      <TextInput value={value} style={inputTextStyles.textInput} ref={inputRef} onChangeText={onChange} {...props} />
     </View>
   );
 };
