@@ -10,26 +10,26 @@ import Home from "./Home";
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  const { currentUser, setCurrentUser } = useAuthUser();
+  const { currentUser, setCurrentUser, loading } = useAuthUser();
 
-  console.log({ currentUser });
-
-  return (
-    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={currentUser ? 'Home' : 'Login'} screenOptions={defaultScreenOptions}>
-          {currentUser
-            ? <>
-              <Stack.Screen name='Home' component={Home} />
-            </>
-            : <>
-              <Stack.Screen name='Login' component={Login} />
-              <Stack.Screen name='SignUp' component={SignUp} options={{ title: 'Sign Up' }} />
-            </>}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </CurrentUserContext.Provider>
-  );
+  return loading
+    ? null
+    : (
+      <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={currentUser ? 'Home' : 'Login'} screenOptions={defaultScreenOptions}>
+            {currentUser
+              ? <>
+                <Stack.Screen name='Home' component={Home} />
+              </>
+              : <>
+                <Stack.Screen name='Login' component={Login} />
+                <Stack.Screen name='SignUp' component={SignUp} options={{ title: 'Sign Up' }} />
+              </>}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CurrentUserContext.Provider>
+    );
 };
 
 export default Main;

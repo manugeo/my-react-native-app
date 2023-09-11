@@ -4,14 +4,17 @@ import AuthStorage from "../authStorage";
 const authStorage = new AuthStorage();
 
 const useAuthUser = () => {
+  const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUserToState] = useState(null);
 
   useEffect(() => {
     const initializeCurrentUserFromAuthStorage = async () => {
+      setLoading(true);
       const currentUserFromAuthStorage = await authStorage.getUser();
       if (currentUserFromAuthStorage) {
         setCurrentUserToState(currentUserFromAuthStorage);
       }
+      setLoading(false);
     };
     initializeCurrentUserFromAuthStorage();
   }, []);
@@ -27,7 +30,7 @@ const useAuthUser = () => {
     setCurrentUserToState(user);
   };
 
-  return { currentUser, setCurrentUser };
+  return { currentUser, setCurrentUser, loading };
 };
 
 export default useAuthUser;
