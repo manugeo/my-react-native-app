@@ -9,8 +9,8 @@ import { showToast } from "../utils";
 const { colors, texts } = theme;
 
 const LOGIN_INPUTS = [
-  { id: 'email', label: 'Email', placeholder: '', isPassword: false },
-  { id: 'password', label: 'Password', placeholder: '', isPassword: true }
+  { id: 'email', label: 'Email', placeholder: 'Enter your email', isPassword: false },
+  { id: 'password', label: 'Password', placeholder: 'Enter your password', isPassword: true }
 ];
 
 const initialValue = {
