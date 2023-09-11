@@ -32,15 +32,15 @@ const styles = StyleSheet.create({
 });
 
 const SignUp = () => {
-  const [inputDetails, setInputDetails] = useState(initialValue);
+  const [signUpInputs, setSignUpInputs] = useState(initialValue);
   const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
   const { loading, setCurrentUser, createUser } = useUserService();
 
   const isUserDetailsValid = () => {
-    const fullName = inputDetails.fullName.value;
-    const email = inputDetails.email.value;
-    const password = inputDetails.password.value;
-    const confirmPassword = inputDetails.confirmPassword.value;
+    const fullName = signUpInputs.fullName.value;
+    const email = signUpInputs.email.value;
+    const password = signUpInputs.password.value;
+    const confirmPassword = signUpInputs.confirmPassword.value;
     if (!fullName || !email || !password || !confirmPassword) return false;
     if (!isValidEmail(email)) return false;
     if (password.length < 8) return false;
@@ -48,12 +48,12 @@ const SignUp = () => {
     return true;
   };
 
-  // Note: Accepts an input details object. Updates the error-texts for the same. 
-  const updateInputErrorTexts = (inputDetails) => {
+  // Note: Accepts an inputs object. Updates the error-texts for the same. 
+  const updateInputErrorTexts = (inputs) => {
     for (const { id, label } of SIGN_UP_INPUTS) {
-      const input = inputDetails[id];
+      const input = inputs[id];
       const inputValue = input.value;
-      const passwordValue = inputDetails['password'].value;
+      const passwordValue = inputs['password'].value;
       let errorText = '';
       if (!inputValue) {
         errorText = `${label} is required.`;
@@ -76,17 +76,17 @@ const SignUp = () => {
   };
 
   const onInputChange = (id, value) => {
-    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value } };
-    updateInputErrorTexts(newInputDetails);
-    setInputDetails(newInputDetails);
+    const newInputs = { ...signUpInputs, [id]: { ...signUpInputs[id], value: value } };
+    updateInputErrorTexts(newInputs);
+    setSignUpInputs(newInputs);
   };
-  const onInputBlur = (id) => setInputDetails({ ...inputDetails, [id]: { ...inputDetails[id], isTouched: true } });
+  const onInputBlur = (id) => setSignUpInputs({ ...signUpInputs, [id]: { ...signUpInputs[id], isTouched: true } });
   const onSignUpPress = async () => {
     if (!isTriedSubmitting) setIsTriedSubmitting(true);
     if (!isUserDetailsValid()) return;
-    const fullName = inputDetails.fullName.value.trim();
-    const email = inputDetails.email.value.trim();
-    const password = inputDetails.password.value;
+    const fullName = signUpInputs.fullName.value.trim();
+    const email = signUpInputs.email.value.trim();
+    const password = signUpInputs.password.value;
     const response = await createUser({ fullName, email, password });
     if (!response || response.error) {
       showToast(response.error)
@@ -95,7 +95,7 @@ const SignUp = () => {
     const newUser = response.user;
     setCurrentUser(newUser);
     showToast('Signed up successfully.');
-    setInputDetails(initialValue);
+    setSignUpInputs(initialValue);
     setIsTriedSubmitting(false);
   };
 
@@ -103,7 +103,7 @@ const SignUp = () => {
     <ScrollView contentContainerStyle={styles.scrollViewContent} >
       <View style={styles.container}>
         {SIGN_UP_INPUTS.map(({ id, label, placeholder, isPassword }) => {
-          const { value, isTouched, errorText } = inputDetails[id];
+          const { value, isTouched, errorText } = signUpInputs[id];
           return (
             <InputText key={id} value={value} label={label} secureTextEntry={isPassword} placeholder={placeholder}
               errorText={(isTouched || isTriedSubmitting) ? errorText : ''} onChange={(v) => onInputChange(id, v)} onBlur={() => onInputBlur(id)} />
