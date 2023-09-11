@@ -1,10 +1,12 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import theme from "../theme";
 import { useState } from "react";
 import InputText from "./InputText";
 import InputButton from "./InputButton";
 import { isValidEmail, showToast } from "../utils";
 import useUserService from "../hooks/useUserService";
+
+const { colors, texts } = theme;
 
 const SIGN_UP_INPUTS = [
   { id: 'fullName', label: 'Full Name', placeholder: 'John Doe', isPassword: false },
@@ -23,15 +25,22 @@ const initialValue = {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
-    backgroundColor: theme.colors.backgroundPrimary
+    backgroundColor: colors.backgroundPrimary
   },
   container: {
     paddingHorizontal: 20,
     paddingVertical: 30,
-  }
+  },
+  helperTextContainer: {
+    marginTop: 4,
+    flexDirection: 'row',
+    justifyContent: "flex-end",
+    alignItems: 'center'
+  },
+  helperText: { ...texts.small, color: colors.textPrimary }
 });
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [signUpInputs, setSignUpInputs] = useState(initialValue);
   const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
   const { loading, setCurrentUser, createUser } = useUserService();
@@ -99,6 +108,8 @@ const SignUp = () => {
     setIsTriedSubmitting(false);
   };
 
+  const onLoginHelperTextPress = () => navigation.navigate('Login')
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent} >
       <View style={styles.container}>
@@ -110,7 +121,13 @@ const SignUp = () => {
           );
         }
         )}
+
         <InputButton title="Sign Up" style={{ marginTop: 12 }} disabled={loading} onPress={onSignUpPress} />
+
+        <View style={styles.helperTextContainer}>
+          <Text style={styles.helperText}>{"Already have an account?"}</Text>
+          <InputButton title="Login" type="compact" onPress={onLoginHelperTextPress} />
+        </View>
       </View>
     </ScrollView>
   );

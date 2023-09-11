@@ -1,10 +1,12 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import theme from "../theme";
 import { useState } from "react";
 import InputText from "./InputText";
 import InputButton from "./InputButton";
 import useUserService from "../hooks/useUserService";
 import { showToast } from "../utils";
+
+const { colors, texts } = theme;
 
 const LOGIN_INPUTS = [
   { id: 'email', label: 'Email', placeholder: '', isPassword: false },
@@ -19,15 +21,22 @@ const initialValue = {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
-    backgroundColor: theme.colors.backgroundPrimary
+    backgroundColor: colors.backgroundPrimary
   },
   container: {
     paddingHorizontal: 20,
     paddingVertical: 30,
-  }
+  },
+  helperTextContainer: {
+    marginTop: 4,
+    flexDirection: 'row',
+    justifyContent: "flex-end",
+    alignItems: 'center'
+  },
+  helperText: { ...texts.small, color: colors.textPrimary }
 });
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [loginInputs, setLoginInputs] = useState(initialValue);
   const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
   const { loading, setCurrentUser, login } = useUserService();
@@ -71,6 +80,7 @@ const Login = () => {
     setLoginInputs(initialValue);
     setIsTriedSubmitting(false);
   };
+  const onSignUpHelperTextPress = () => navigation.navigate('SignUp');
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent} >
@@ -83,7 +93,13 @@ const Login = () => {
           );
         }
         )}
+
         <InputButton title="Login" style={{ marginTop: 12 }} disabled={loading} onPress={onLoginPress} />
+
+        <View style={styles.helperTextContainer}>
+          <Text style={styles.helperText}>{"Don't have an account?"}</Text>
+          <InputButton title="Sign up" type="compact" onPress={onSignUpHelperTextPress} />
+        </View>
       </View>
     </ScrollView>
   );
