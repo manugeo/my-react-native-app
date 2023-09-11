@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 const Home = ({ navigation }) => {
   const { currentUser, setCurrentUser } = useCurrentUserFromContext();
-  const { fullName } = currentUser;
+  const { fullName, email } = currentUser;
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   useLayoutEffect(() => {
@@ -61,8 +61,8 @@ const Home = ({ navigation }) => {
       <View style={styles.container}>
         <Text style={styles.welcomeText}>{`Welcome ${fullName.split(' ')[0]}!`}</Text>
         {isDetailsVisible && <>
-          <Text style={styles.fullNameText}>Your Full Name: Manu Thomas</Text>
-          <Text style={styles.emailText}>Your Email: manugeo13@gmail.com</Text>
+          <Text style={styles.fullNameText}>{`Your Full Name: ${fullName}`}</Text>
+          <Text style={styles.emailText}>{`Your Email: ${email}`}</Text>
         </>}
         <InputButton title={isDetailsVisible ? 'Hide details' : 'Show details'} type="compact" style={styles.detailsButton}
           onPress={onDetailsButtonPress} />
