@@ -17,7 +17,7 @@ const Main = () => {
   return (
     <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={currentUser ? 'Home' : 'SignUp'} screenOptions={defaultScreenOptions}>
+        <Stack.Navigator initialRouteName={currentUser ? 'Home' : 'Login'} screenOptions={defaultScreenOptions}>
           {currentUser
             ? <>
               <Stack.Screen name='Home' component={Home} />
