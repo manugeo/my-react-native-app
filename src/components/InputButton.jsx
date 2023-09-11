@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
 
 const InputButton = ({ title = '', style = null, disabled = false, type = 'primary', onPress = () => { }, ...props }) => {
   const getPressableStyle = ({ pressed }) => {
-    return [styles.container, (disabled && { opacity: 0.5 }), ((type === 'compact') && { backgroundColor: 'transparent' }), style,
+    return [styles.container, (disabled && { opacity: 0.5 }), ((type === 'compact') && { backgroundColor: colors.backgroundLighter, padding: 8 }), style,
     (pressed && { opacity: 0.5 })]
   };
-  const textStyles = [styles.text, ((type === 'compact') && { ...texts.small })];
+  const textStyles = [styles.text, ((type === 'compact') && { ...texts.small, color: colors.textPrimary })];
 
   return (
     <Pressable style={getPressableStyle} disabled={disabled} onPress={onPress} {...props}>

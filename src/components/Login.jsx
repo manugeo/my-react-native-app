@@ -98,7 +98,7 @@ const Login = ({ navigation }) => {
 
         <View style={styles.helperTextContainer}>
           <Text style={styles.helperText}>{"Don't have an account?"}</Text>
-          <InputButton title="Sign up" type="compact" onPress={onSignUpHelperTextPress} />
+          <InputButton title="Sign up" type="compact" style={{ marginLeft: 4 }} onPress={onSignUpHelperTextPress} />
         </View>
       </View>
     </ScrollView>

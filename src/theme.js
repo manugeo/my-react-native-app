@@ -3,6 +3,7 @@ const theme = {
     backgroundPrimary: '#abd699',
     backgroundSecondary: '#cdf8bb',
     backgroundDarker: '#16123f',
+    backgroundLighter: 'rgba(22, 18, 63, 0.1)',
     textPrimary: '#16123f',
     textLight: '#ffffff',
     textError: '#FF0000',
@@ -13,6 +14,15 @@ const theme = {
     navy: '#16123f'
   },
   texts: {
+    largeBold: {
+      fontSize: 20,
+      lineHeight: 22,
+      fontWeight: 'bold'
+    },
+    large: {
+      fontSize: 20,
+      lineHeight: 22
+    },
     medium: {
       fontSize: 16,
       lineHeight: 18
