@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { createUserAsync } from "../mockApi";
+import useCurrentUserFromContext from "./useCurrentUserFromContext";
 
 const useUserService = () => {
   const [loading, setLoading] = useState(false);
+  const { currentUser, setCurrentUser } = useCurrentUserFromContext();
+
   const createUser = async (userDetails) => {
     setLoading(true);
     const response = await createUserAsync(userDetails);
@@ -10,7 +13,7 @@ const useUserService = () => {
     return response;
   };
 
-  return { createUser, loading };
+  return { loading, currentUser, setCurrentUser, createUser };
 };
 
 export default useUserService;

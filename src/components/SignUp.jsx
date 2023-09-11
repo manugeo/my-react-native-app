@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 const SignUp = () => {
   const [inputDetails, setInputDetails] = useState(initialValue);
   const [isTriedSubmitting, setIsTriedSubmitting] = useState(false);
-  const { createUser, loading } = useUserService();
+  const { loading, setCurrentUser, createUser } = useUserService();
 
   const isUserDetailsValid = () => {
     const fullName = inputDetails.fullName.value;
@@ -76,7 +76,7 @@ const SignUp = () => {
   };
 
   const onInputChange = (id, value) => {
-    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value } };
+    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value.trim() } };
     updateInputErrorTexts(newInputDetails);
     setInputDetails(newInputDetails);
   };
@@ -92,6 +92,8 @@ const SignUp = () => {
       showToast(response.error)
       return;
     }
+    const newUser = response.user;
+    setCurrentUser(newUser);
     showToast('Signed up successfully.');
     setInputDetails(initialValue);
     setIsTriedSubmitting(false);
