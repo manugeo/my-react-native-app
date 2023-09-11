@@ -5,7 +5,7 @@ const createUser = (data) => {
   if (!fullName) return { error: 'Full Name is required.' }
   if (!email) return { error: 'Email is required.' }
   if (!password) return { error: 'Password is required.' }
-  if (USERS.some(user => (user.email === email))) return { error: 'User already exists.' }
+  if (USERS.some(user => (user.email === email))) return { error: 'A user with the same email address already exists.' }
 
   const newUser = { fullName, email, password, id: randomId() };
   USERS.push(newUser);

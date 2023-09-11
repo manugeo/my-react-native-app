@@ -76,7 +76,7 @@ const SignUp = () => {
   };
 
   const onInputChange = (id, value) => {
-    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value.trim() } };
+    const newInputDetails = { ...inputDetails, [id]: { ...inputDetails[id], value: value } };
     updateInputErrorTexts(newInputDetails);
     setInputDetails(newInputDetails);
   };
@@ -84,8 +84,8 @@ const SignUp = () => {
   const onSignUpPress = async () => {
     if (!isTriedSubmitting) setIsTriedSubmitting(true);
     if (!isUserDetailsValid()) return;
-    const fullName = inputDetails.fullName.value;
-    const email = inputDetails.email.value;
+    const fullName = inputDetails.fullName.value.trim();
+    const email = inputDetails.email.value.trim();
     const password = inputDetails.password.value;
     const response = await createUser({ fullName, email, password });
     if (!response || response.error) {

@@ -2,6 +2,7 @@ const theme = {
   colors: {
     backgroundPrimary: '#abd699',
     backgroundSecondary: '#cdf8bb',
+    backgroundDarker: '#16123f',
     textPrimary: '#16123f',
     textLight: '#ffffff',
     textError: '#FF0000',
@@ -25,8 +26,8 @@ const theme = {
 
 export const defaultScreenOptions = {
   headerTitleAlign: 'center',
-  headerTintColor: theme.colors.textPrimary,
-  headerStyle: { backgroundColor: theme.colors.backgroundPrimary }
+  headerTintColor: theme.colors.textLight,
+  headerStyle: { backgroundColor: theme.colors.backgroundDarker }
 };
 
 export default theme;
